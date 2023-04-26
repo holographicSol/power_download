@@ -349,14 +349,19 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
                           _is_retrying=True)
 
 
+# EXAMPLES:
+
+# One File:
 # download_file(_url='https://github.com/holographicSol/power_download/archive/refs/heads/main.zip')
 
+# List of files:
 # power_download(_urls=['https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
 #                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
 #                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
 #                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
 #                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip'])
 
+# List of files with options:
 # filenames = ['1.zip', '2.zip', '3.zip', '4.zip', '5.zip']
 # power_download(_urls=['https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
 #                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
