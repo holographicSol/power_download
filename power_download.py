@@ -353,8 +353,7 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
 # EXAMPLES:
 
 # One File:
-download_file(_url='https://www.pdfdrive.com/download.pdf?id=60737124&h=a56b33f1bd86346ffc92366a7a460d7d&u=cache&ext=pdf',
-              _filename_ext='.pdf')
+download_file(_url='https://github.com/holographicSol/power_download/archive/refs/heads/main.zip')
 
 # List of files:
 # power_download(_urls=['https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
