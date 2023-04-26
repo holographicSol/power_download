@@ -122,7 +122,7 @@ def power_download(_urls: list, _filenames=[], _timeout=86400, _chunk_size=8192,
 
     HEADER: Randomly generated if unspecified.
 
-    ENCODING: Specify encoding of file saved. (Default UTF-8)
+    ENCODING: Specify encoding of download_passed.txt/download_failed.txt. (Default UTF-8)
 
     DOWNLOADS PASSED: Used with log. Keep track of what has already been downloaded.
                       - multi-drive/system memory (continue where you left off on another disk/sys)
@@ -186,7 +186,7 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
 
     HEADER: Randomly generated if unspecified.
 
-    ENCODING: Specify encoding of file saved. (Default UTF-8)
+    ENCODING: Specify encoding of download_passed.txt/download_failed.txt. (Default UTF-8)
 
     DOWNLOADS PASSED: Used with log. Keep track of what has already been downloaded.
                       - multi-drive/system memory (continue where you left off on another disk/sys)
