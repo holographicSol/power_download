@@ -213,11 +213,11 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
         _allow_download = True
 
         if _log is True:
-            if _filename in _downloads_passed:
+            if _url in _downloads_passed:
                 print(f'{get_dt()} [SKIPPING] File has already been downloaded.')
                 _allow_download = False
 
-        if _overwrite is False:
+        elif _overwrite is False:
             if os.path.exists(_filename):
                 print(f'{get_dt()} [SKIPPING] File already exists.')
                 _allow_download = False
@@ -370,4 +370,16 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
 #                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',],
 #                _filenames=filenames,
 #                _download_directory='./library/stuff/awesome/',
+#                _overwrite=True)
+
+# List of files with options and logging:
+# filenames = ['1.zip', '2.zip', '3.zip', '4.zip', '5.zip']
+# power_download(_urls=['https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
+#                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
+#                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
+#                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
+#                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',],
+#                _filenames=filenames,
+#                _download_directory='./library/stuff/awesome/',
+#                _log=False,
 #                _overwrite=True)
