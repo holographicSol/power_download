@@ -5,10 +5,13 @@ import time
 import shutil
 import socket
 import codecs
+
+import bs4
 import requests
 import colorama
 import datetime
 import string
+from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
 
@@ -52,6 +55,32 @@ def convert_bytes(num: int) -> str:
         if num < 1024.0:
             return str(num)+' '+x
         num /= 1024.0
+
+
+def crawl(_url: str):
+    rHead = requests.get(_url)
+    data = rHead.text
+    return BeautifulSoup(data, "html.parser")
+
+
+def parse_soup_links(_find_all: str, _link: str, soup: bs4.BeautifulSoup, _verbose=False) -> list:
+    _links = []
+    for link in soup.find_all(_find_all):
+        _link = link.get(_link)
+        _links.append(_link)
+        if _verbose is True:
+            print(_link)
+    return _links
+
+
+def parse_soup_rows(_find_all: str, soup: bs4.BeautifulSoup, _verbose=False) -> list:
+    _rows = []
+    for row in soup.find_all(_find_all):
+        _row = row.get_text()
+        _rows.append(_row)
+        if _verbose is True:
+            print(_rows)
+    return _rows
 
 
 def make_accepted_filename(_string: str) -> str:
@@ -349,40 +378,3 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
                           _downloads_passed=_downloads_passed, _downloads_failed=_downloads_failed,
                           _download_directory=_download_directory, _overwrite=_overwrite, _retry_max=_retry_max,
                           _is_retrying=True)
-
-
-# EXAMPLES:
-
-# One File:
-# download_file(_url='https://github.com/holographicSol/power_download/archive/refs/heads/main.zip')
-
-# List of files:
-# power_download(_urls=['https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
-#                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
-#                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
-#                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
-#                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip'])
-
-# List of files with options:
-# filenames = ['1.zip', '2.zip', '3.zip', '4.zip', '5.zip']
-# power_download(_urls=['https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
-#                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
-#                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
-#                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
-#                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',],
-#                _filenames=filenames,
-#                _download_directory='./library/stuff/awesome/',
-#                _overwrite=True)
-
-# List of files with options logging:
-# filenames = ['1.zip', '2.zip', '3.zip', '4.zip', '5.zip']
-# power_download(_urls=['https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
-#                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
-#                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
-#                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
-#                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',],
-#                _filenames=filenames,
-#                _download_directory='./library/stuff/awesome/',
-#                _log=True,
-#                _overwrite=False)
-# https://www.pdfdrive.com/download.pdf?id=60737124&h=a56b33f1bd86346ffc92366a7a460d7d&u=cache&ext=pdf
