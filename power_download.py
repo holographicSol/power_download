@@ -372,7 +372,7 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
 #                _download_directory='./library/stuff/awesome/',
 #                _overwrite=True)
 
-# List of files with options and logging:
+# List of files with options logging:
 # filenames = ['1.zip', '2.zip', '3.zip', '4.zip', '5.zip']
 # power_download(_urls=['https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
 #                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
@@ -381,5 +381,5 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
 #                       'https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',],
 #                _filenames=filenames,
 #                _download_directory='./library/stuff/awesome/',
-#                _log=False,
-#                _overwrite=True)
+#                _log=True,
+#                _overwrite=False)
