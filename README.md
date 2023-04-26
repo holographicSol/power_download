@@ -11,5 +11,5 @@ Download from one URL: power_download.download_file(url=url)
 
 Download from a list of URLs: power_download.power_download(urls=urls)
 
-    Requires a list of URL's to be specified.
-    Filenames are created automatically from URL if filenames are uncpecified.
+    Requires a list of URLs to be specified.
+    Filenames are created automatically from URLs if filenames are uncpecified.
