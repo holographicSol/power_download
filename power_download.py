@@ -97,7 +97,7 @@ def power_download(_urls: list, _filenames=[], _timeout=86400, _chunk_size=8192,
                    _clear_console_line_n=50, _chunk_encoded_response=False, _min_file_size=1,
                    _log=False, _headers='random', _encoding='utf8', _downloads_passed=[], _downloads_failed=[],
                    _download_passed='./download_passed.txt', _download_failed='./download_failed.txt',
-                   _download_directory='./', _overwrite=False, _retry_max=3):
+                   _download_directory='./', _overwrite=False, _retry_max=3, _filename_ext=''):
     """
     [REQUIRES] A list of URLs to be specified.
 
@@ -151,7 +151,7 @@ def power_download(_urls: list, _filenames=[], _timeout=86400, _chunk_size=8192,
                       _min_file_size=_min_file_size, _log=_log, _headers=_headers, _encoding=_encoding,
                       _downloads_passed=_downloads_passed, _downloads_failed=_downloads_failed,
                       _download_directory=_download_directory, _overwrite=_overwrite, _retry_max=_retry_max,
-                      _is_retrying=_is_retrying)
+                      _is_retrying=_is_retrying, _filename_ext=_filename_ext)
 
         i_progress += 1
 
@@ -161,7 +161,8 @@ def power_download(_urls: list, _filenames=[], _timeout=86400, _chunk_size=8192,
 def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400, _chunk_size=8192,
                   _clear_console_line_n=50, _chunk_encoded_response=False, _min_file_size=1,
                   _log=False, _headers='random', _encoding='utf8', _downloads_passed=[], _downloads_failed=[],
-                  _download_directory='./', _overwrite=False, _retry_max=3, _is_retrying=False) -> bool:
+                  _download_directory='./', _overwrite=False, _retry_max=3, _is_retrying=False,
+                  _filename_ext='') -> bool:
     """
     [REQUIRES] One URL to be specified.
 
@@ -206,7 +207,7 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
 
             if _filename == 'TEMPORARY_DOWNLOAD_NAME':
                 _filename = make_accepted_filename(_string=make_filename_from_url(url=_url))
-            _filename = _download_directory + '/' + _filename
+            _filename = _download_directory + '/' + _filename + _filename_ext
 
         print(f'{get_dt()} [FILE] {_filename}')
 
@@ -352,7 +353,8 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
 # EXAMPLES:
 
 # One File:
-download_file(_url='https://www.pdfdrive.com/download.pdf?id=60737124&h=a56b33f1bd86346ffc92366a7a460d7d&u=cache&ext=pdf')
+download_file(_url='https://www.pdfdrive.com/download.pdf?id=60737124&h=a56b33f1bd86346ffc92366a7a460d7d&u=cache&ext=pdf',
+              _filename_ext='.pdf')
 
 # List of files:
 # power_download(_urls=['https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
