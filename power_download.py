@@ -55,7 +55,7 @@ def convert_bytes(num: int) -> str:
 
 
 def make_accepted_filename(_string: str) -> str:
-    accepted_chars = string.digits + string.ascii_letters + '_' + '-' + '+' + '=' + '(' + ')' + '!' + '#' + '<' + '>' + '?' + '.'
+    accepted_chars = string.digits + string.ascii_letters + '_' + '-' + '+' + '=' + '(' + ')' + '!' + '#' + '<' + '>' + '.'
     new_string = ''
     char_list = [char for char in _string if char in accepted_chars]
     new_string = new_string.join(char_list)
@@ -352,7 +352,7 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
 # EXAMPLES:
 
 # One File:
-# download_file(_url='https://github.com/holographicSol/power_download/archive/refs/heads/main.zip')
+download_file(_url='https://www.pdfdrive.com/download.pdf?id=60737124&h=a56b33f1bd86346ffc92366a7a460d7d&u=cache&ext=pdf')
 
 # List of files:
 # power_download(_urls=['https://github.com/holographicSol/power_download/archive/refs/heads/main.zip',
@@ -383,3 +383,4 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
 #                _download_directory='./library/stuff/awesome/',
 #                _log=True,
 #                _overwrite=False)
+# https://www.pdfdrive.com/download.pdf?id=60737124&h=a56b33f1bd86346ffc92366a7a460d7d&u=cache&ext=pdf
