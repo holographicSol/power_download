@@ -1,17 +1,15 @@
 """ Written by Benjamin Jack Cullen """
 
 import os
+import bs4
 import time
+import string
 import shutil
 import socket
 import codecs
-
-import bs4
 import requests
 import colorama
 import datetime
-import string
-from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
 
@@ -60,7 +58,7 @@ def convert_bytes(num: int) -> str:
 def crawl(_url: str):
     rHead = requests.get(_url)
     data = rHead.text
-    return BeautifulSoup(data, "html.parser")
+    return bs4.BeautifulSoup(data, "html.parser")
 
 
 def parse_soup_links(_find_all: str, _link: str, soup: bs4.BeautifulSoup, _verbose=False) -> list:
