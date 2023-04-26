@@ -1,4 +1,12 @@
-""" Written by Benjamin Jack Cullen """
+""" Written by Benjamin Jack Cullen
+
+returns True if download completed successfully.
+returns False if download failed.
+returns False if out of disk space during download.
+
+optional verbosity included.
+
+"""
 
 import os
 import bs4
@@ -305,7 +313,7 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
                                     os.remove(_filename + '.tmp')
                                 time.sleep(1)
 
-                                return False
+                                exit(0)
 
             # check: does the temporary file exists
             if os.path.exists(_filename+'.tmp'):
