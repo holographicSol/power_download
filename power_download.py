@@ -155,13 +155,13 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
                   _clear_console_line_n=50, _chunk_encoded_response=False, _min_file_size=1024,
                   _log=False, _headers='random', _encoding='utf8', _downloads_passed=[], _downloads_failed=[]) -> bool:
     """
-    [REQUIRES] One URL and one filename to be specified.
+    [REQUIRES] One URL to be specified.
 
     URL: Specify url.
 
-    FILENAME: Specify the PATH/FILENAME to save the download as.
-
     [OPTIONAL]
+
+    FILENAME: Specify the PATH/FILENAME to save the download as.
 
     TIMEOUT: Specify how long to wait during connection issues etc. before closing the connection. (Default 24h).
 
