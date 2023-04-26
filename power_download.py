@@ -126,7 +126,7 @@ def power_download(_urls: list, _filenames=[], _timeout=86400, _chunk_size=8192,
                    _clear_console_line_n=50, _chunk_encoded_response=False, _min_file_size=1,
                    _log=False, _headers='random', _encoding='utf8', _downloads_passed=[], _downloads_failed=[],
                    _download_passed='./download_passed.txt', _download_failed='./download_failed.txt',
-                   _download_directory='./', _overwrite=False, _retry_max=3, _filename_ext=''):
+                   _download_directory='./', _overwrite=False, _retry_max=3, _filename_ext='', _verbose=True):
     """
     [REQUIRES] A list of URLs to be specified.
 
@@ -173,14 +173,15 @@ def power_download(_urls: list, _filenames=[], _timeout=86400, _chunk_size=8192,
 
         _retry_max_counter = 0
         _is_retrying = False
-        print('_'*28)
-        print(f'{get_dt()} [PROGRESS] {i_progress+1}/{len(_urls)}')
+        if _verbose is True:
+            print('_'*28)
+            print(f'{get_dt()} [PROGRESS] {i_progress+1}/{len(_urls)}')
         download_file(_url=_url, _filename=file_name, _timeout=_timeout, _chunk_size=_chunk_size,
                       _clear_console_line_n=_clear_console_line_n, _chunk_encoded_response=_chunk_encoded_response,
                       _min_file_size=_min_file_size, _log=_log, _headers=_headers, _encoding=_encoding,
                       _downloads_passed=_downloads_passed, _downloads_failed=_downloads_failed,
                       _download_directory=_download_directory, _overwrite=_overwrite, _retry_max=_retry_max,
-                      _is_retrying=_is_retrying, _filename_ext=_filename_ext)
+                      _is_retrying=_is_retrying, _filename_ext=_filename_ext, _verbose=_verbose)
 
         i_progress += 1
 
@@ -191,7 +192,7 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
                   _clear_console_line_n=50, _chunk_encoded_response=False, _min_file_size=1,
                   _log=False, _headers='random', _encoding='utf8', _downloads_passed=[], _downloads_failed=[],
                   _download_directory='./', _overwrite=False, _retry_max=3, _is_retrying=False,
-                  _filename_ext='') -> bool:
+                  _filename_ext='', _verbose=True) -> bool:
     """
     [REQUIRES] One URL to be specified.
 
@@ -227,8 +228,8 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
     global _retry_max_counter
 
     try:
-
-        print(f'{get_dt()} [DOWNLOADING] {_url}')
+        if _verbose is True:
+            print(f'{get_dt()} [DOWNLOADING] {_url}')
 
         if _is_retrying is False:
             if not os.path.exists(_download_directory):
@@ -238,18 +239,21 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
                 _filename = make_accepted_filename(_string=make_filename_from_url(url=_url))
             _filename = _download_directory + '/' + _filename + _filename_ext
 
-        print(f'{get_dt()} [FILE] {_filename}')
+        if _verbose is True:
+            print(f'{get_dt()} [FILE] {_filename}')
 
         _allow_download = True
 
         if _log is True:
             if _url in _downloads_passed:
-                print(f'{get_dt()} [SKIPPING] File has already been downloaded.')
+                if _verbose is True:
+                    print(f'{get_dt()} [SKIPPING] File has already been downloaded.')
                 _allow_download = False
 
         elif _overwrite is False:
             if os.path.exists(_filename):
-                print(f'{get_dt()} [SKIPPING] File already exists.')
+                if _verbose is True:
+                    print(f'{get_dt()} [SKIPPING] File already exists.')
                 _allow_download = False
 
         # use a random user agent for download stability
@@ -264,7 +268,8 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
                 # open a temporary file of our created filename
                 with open(_filename+'.tmp', 'wb') as f:
 
-                    print('')
+                    if _verbose is True:
+                        print('')
                     # iterate though chunks of the stream
                     for chunk in r.iter_content(chunk_size=_chunk_size):
 
@@ -286,22 +291,23 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
                                 f.write(chunk)
 
                                 # output: display download progress
-                                print(' ' * _clear_console_line_n, end='\r', flush=True)
-                                print(f'[DOWNLOADING] {str(convert_bytes(os.path.getsize(_filename+".tmp")))}', end='\r', flush=True)
+                                if _verbose is True:
+                                    print(' ' * _clear_console_line_n, end='\r', flush=True)
+                                    print(f'[DOWNLOADING] {str(convert_bytes(os.path.getsize(_filename+".tmp")))}', end='\r', flush=True)
 
                             else:
                                 # output: out of disk space
-                                print(' ' * _clear_console_line_n, end='\r', flush=True)
-                                print(f'{get_dt()} ' + str(color(s='[WARNING] OUT OF DISK SPACE! Download terminated.', c='Y')), end='\r', flush=True)
+                                if _verbose is True:
+                                    print(' ' * _clear_console_line_n, end='\r', flush=True)
+                                    print(f'{get_dt()} ' + str(color(s='[WARNING] OUT OF DISK SPACE! Download terminated.', c='Y')), end='\r', flush=True)
+                                    print('')
 
                                 # delete temporary file if exists
                                 if os.path.exists(_filename + '.tmp'):
                                     os.remove(_filename + '.tmp')
                                 time.sleep(1)
 
-                                # exit.
-                                print('')
-                                exit(0)
+                                return False
 
             # check: does the temporary file exists
             if os.path.exists(_filename+'.tmp'):
@@ -321,7 +327,8 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
 
                     # display download success (does not guarantee a usable file, some checks are performed before this point)
                     if os.path.exists(_filename):
-                        print(f'{get_dt()} ' + color('[Downloaded Successfully]', c='G'))
+                        if _verbose is True:
+                            print(f'{get_dt()} ' + color('[Downloaded Successfully]', c='G'))
 
                         # add book to saved list. multi-drive/system memory (continue where you left off on another disk/sys)
                         if _log is True:
@@ -342,7 +349,8 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
                         return True
 
                 else:
-                    print(f'{get_dt()} ' + color(f'[Download Failed] File < {_min_file_size} bytes, will be removed.', c='Y'))
+                    if _verbose is True:
+                        print(f'{get_dt()} ' + color(f'[Download Failed] File < {_min_file_size} bytes, will be removed.', c='Y'))
 
                     # check: clean up the temporary file if it exists.
                     if os.path.exists(_filename+'.tmp'):
@@ -367,11 +375,13 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
                     return False
 
     except Exception as e:
-        print(f'{get_dt()} [ERROR] {e}')
+        if _verbose is True:
+            print(f'{get_dt()} [ERROR] {e}')
         if _retry_max_counter <= _retry_max:
             _retry_max_counter += 1
-            time.sleep(5)
-            print(f'{get_dt()} [RETRYING] ' + str(color(s=_url, c='Y')))
+            time.sleep(10)
+            if _verbose is True:
+                print(f'{get_dt()} [RETRYING] ' + str(color(s=_url, c='Y')))
             download_file(_url=_url, _filename=_filename, _timeout=_timeout, _chunk_size=_chunk_size,
                           _clear_console_line_n=_clear_console_line_n, _chunk_encoded_response=_chunk_encoded_response,
                           _min_file_size=_min_file_size, _log=_log, _headers=_headers, _encoding=_encoding,
