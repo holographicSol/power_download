@@ -235,6 +235,7 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
                 # open a temporary file of our created filename
                 with open(_filename+'.tmp', 'wb') as f:
 
+                    print('')
                     # iterate though chunks of the stream
                     for chunk in r.iter_content(chunk_size=_chunk_size):
 
