@@ -93,7 +93,7 @@ def downloads_failed(_download_failed='./download_failed.txt', _encoding='utf8')
 
 
 def power_download(_urls: list, _filenames=[], _timeout=86400, _chunk_size=8192,
-                   _clear_console_line_n=50, _chunk_encoded_response=False, _min_file_size=1024,
+                   _clear_console_line_n=50, _chunk_encoded_response=False, _min_file_size=1,
                    _log=False, _headers='random', _encoding='utf8', _downloads_passed=[], _downloads_failed=[],
                    _download_passed='./download_passed.txt', _download_failed='./download_failed.txt',
                    _download_directory='./', _overwrite=False):
@@ -154,7 +154,7 @@ def power_download(_urls: list, _filenames=[], _timeout=86400, _chunk_size=8192,
 
 
 def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400, _chunk_size=8192,
-                  _clear_console_line_n=50, _chunk_encoded_response=False, _min_file_size=1024,
+                  _clear_console_line_n=50, _chunk_encoded_response=False, _min_file_size=1,
                   _log=False, _headers='random', _encoding='utf8', _downloads_passed=[], _downloads_failed=[],
                   _download_directory='./', _overwrite=False) -> bool:
     """
@@ -317,3 +317,6 @@ def download_file(_url: str, _filename='TEMPORARY_DOWNLOAD_NAME', _timeout=86400
                         file_open.close()
 
                 return False
+
+
+download_file(_url='https://github.com/holographicSol/power_download/archive/refs/heads/main.zip')
