@@ -64,24 +64,25 @@ def convert_bytes(num: int) -> str:
 
 
 def crawl(_url: str):
-    rHead = requests.get(_url)
+    headers = {'User-Agent': str(ua.random)}
+    rHead = requests.get(_url, headers=headers, timeout=master_timeout)
     data = rHead.text
     return bs4.BeautifulSoup(data, "html.parser")
 
 
-def parse_soup_links(_find_all: str, _link: str, soup: bs4.BeautifulSoup, _verbose=False) -> list:
+def parse_soup_links(_find_all: str, _link: str, _soup: bs4.BeautifulSoup, _verbose=False) -> list:
     _links = []
-    for link in soup.find_all(_find_all):
-        _link = link.get(_link)
+    for link in _soup.find_all(_find_all):
+        _link = (link.get('href'))
         _links.append(_link)
         if _verbose is True:
             print(_link)
     return _links
 
 
-def parse_soup_rows(_find_all: str, soup: bs4.BeautifulSoup, _verbose=False) -> list:
+def parse_soup_rows(_find_all: str, _soup: bs4.BeautifulSoup, _verbose=False) -> list:
     _rows = []
-    for row in soup.find_all(_find_all):
+    for row in _soup.find_all(_find_all):
         _row = row.get_text()
         _rows.append(_row)
         if _verbose is True:
@@ -132,7 +133,7 @@ def power_download(_urls: list, _filenames=[], _timeout=86400, _chunk_size=8192,
                    _clear_console_line_n=50, _chunk_encoded_response=False, _min_file_size=1,
                    _log=False, _headers='random', _encoding='utf8', _downloads_passed=[], _downloads_failed=[],
                    _download_passed='./download_passed.txt', _download_failed='./download_failed.txt',
-                   _download_directory='./', _overwrite=False, _retry_max=3, _filename_ext='', _verbose=True):
+                   _download_directory='./', _overwrite=False, _retry_max=3, _filename_ext='', _verbose=True,):
     """
     [REQUIRES] A list of URLs to be specified.
 
